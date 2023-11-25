@@ -25,6 +25,15 @@ Now using node v16.13.0 (npm v8.1.0)
 Creating default alias: default -> 16.13.0 (-> v16.13.0)
 ~~~
 
+
+* kubectl 
+
+~~~
+brew install kubectl
+~~~
+
+ref: https://kubernetes.io/docs/tasks/tools/
+
 * kind 
 
 ~~~
@@ -94,4 +103,14 @@ docker push localhost:5001/server:1.0
 ~~~
 kubectl apply -f server.yaml 
 kubectl apply -f web.yaml 
+~~~
+
+
+expose ports 
+
+~~~
+kubectl port-forward deployment/web 8080:8080
+
+kubectl port-forward deployment/server 5200:5200
+
 ~~~
