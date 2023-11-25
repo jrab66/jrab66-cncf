@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  selector:
+    matchLabels:
+      run: web
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: web
+    spec:
+      containers:
+      - name: web
+        image: localhost:5001/web:1.0
+        ports:
+        - containerPort: 8080
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  labels:
+    run: web
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    run: web

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+spec:
+  selector:
+    matchLabels:
+      run: server
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: server
+    spec:
+      containers:
+      - name: server
+        image: localhost:5001/server:1.0
+        ports:
+        - containerPort: 5200
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+  labels:
+    run: server
+spec:
+  ports:
+  - port: 5200
+    protocol: TCP
+  selector:
+    run: server
