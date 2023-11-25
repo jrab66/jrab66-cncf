@@ -12,6 +12,8 @@ ref: https://docs.docker.com/engine/install/
 
 
 * nvm
+
+ref: https://github.com/nvm-sh/nvm#installing-and-updating
 ~~~
 nvm install 16.13.0
 Downloading and installing node v16.13.0...
