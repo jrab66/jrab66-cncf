@@ -1,0 +1,14 @@
+apiVersion: "glasskube.eu/v1alpha1"
+kind: Vault
+metadata:
+  name: vault
+spec:
+  version: "1.14.2"
+  host: dummy.jrab66.io
+  auditStorage:
+    enabled: true
+  ui: 
+    enabled: true
+  database: 
+    storage: 
+      size: 10Gi

@@ -1,0 +1,25 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: test-selfsigned
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfsigned-cert
+spec:
+  commonName: vault
+  usages:
+    - server auth
+  dnsNames:
+    - vault
+    - vault.default
+    - vault.default.svc
+    - vault.default.svc.cluster.local
+  ipAddresses:
+    - 127.0.0.1
+  secretName: vault-vault-tls
+  issuerRef:
+    name: test-selfsigned
