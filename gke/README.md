@@ -16,7 +16,7 @@ some google cloud account, we are going to use `credentials.json` to authenticat
 
 ref: https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference
 
-* terraform
+* terraform/opentofu
 * gcp account 
 
 
