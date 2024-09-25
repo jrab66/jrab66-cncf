@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: gcr.io/playground-s-11-6e2c7a0e/static-site:660aa198d87d896a8a90ba602c19abfa54f0c4d3
+        image: demo-cnfc-01:latest # dummy image
         ports:
         - containerPort: 8080
         resources:

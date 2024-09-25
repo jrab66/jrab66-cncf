@@ -4,6 +4,3 @@ resources:
 - service.yaml
 - deployment.yaml
 - hpa.yaml
-images:
-- name: test
-  newTag: latest
