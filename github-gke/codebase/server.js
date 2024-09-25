@@ -21,5 +21,8 @@ app.get('/', function (req, res) {
 });
 
 
-app.listen(PORT, HOST);
-console.log(`Corriendo en://${HOST}:${PORT}`);
+// app.listen(PORT, HOST);
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
