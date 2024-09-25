@@ -1,8 +1,8 @@
 {
-  "name": "hochatajs_app",
+  "name": "demo_app",
   "version": "0.0.1",
   "description": "Node.js on Docker",
-  "author": "jrab66 jrab6692@example.com",
+  "author": "jrab66 jrab6692@jrab6692.com",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

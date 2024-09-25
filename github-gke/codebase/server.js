@@ -10,8 +10,7 @@ const HOST = '0.0.0.0';
 const app = express();
 app.get('/', (req, res) => {
   res.send('Hola Mundo Express 1\n');
-  console.log(req);
-  next();
+
 });
 app.listen(PORT, HOST);
 console.log(`Corriendo en://${HOST}:${PORT}`);
