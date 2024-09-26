@@ -2,7 +2,7 @@
 
 echo "setting demo account resources"
 
-export PROJECT_ID="playground-s-11-9031b797"
+export PROJECT_ID="playground-s-11-e040e9d4"
 export GKE_CLUSTER="playground-test"
 export GKE_ZONE="us-central1"
 export GOOGLE_APPLICATION_CREDENTIALS=credentials.json

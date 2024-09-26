@@ -30,7 +30,11 @@ echo $GKE_SA_KEY | xclip -selection clipboard
 ### Load testing
 
 ```
-kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://demo-service; done"
+kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://demo-service:8080; done"
 
 
+
+kubectl run load-generator \
+  --image=williamyeh/hey:latest \
+  --restart=Never -- -c 20 -q 10 -z 60m http://demo-service:8080
 ```
