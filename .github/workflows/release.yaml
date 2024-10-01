@@ -1,0 +1,56 @@
+name: Module release
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  issues: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-matrix:
+    name: Generate matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.get-matrix.outputs.matrix }}
+    steps:
+      - name: Get matrix
+        id: get-matrix
+        uses: hellofresh/action-changed-files@v3
+        with:
+          pattern: modules/(?P<module>[^/]+)
+  release-module:
+    needs: generate-matrix
+    name: Release
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+    if: ${{ fromJson(needs.generate-matrix.outputs.matrix).include[0] }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          cd modules/${{ matrix.module }}
+          python3 "${GITHUB_WORKSPACE}"/scripts/prep_module.py
+          npm install
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd modules/${{ matrix.module }}
+          # shellcheck disable=SC2016
+          npx semantic-release -t ${{ matrix.module }}/'${version}'
