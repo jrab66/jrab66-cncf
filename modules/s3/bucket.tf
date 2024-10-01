@@ -35,9 +35,11 @@ resource "aws_s3_bucket_versioning" "bucket4" {
     status = var.enable_versioning ? "Enabled" : "Disabled"
   }
 }
-resource "aws_s3_bucket_versioning" "bucket5" {
-  bucket = "${aws_s3_bucket.this.id}-5"
-  versioning_configuration {
-    status = var.enable_versioning ? "Enabled" : "Disabled"
-  }
-}
+
+# removed testing breaking change
+# resource "aws_s3_bucket_versioning" "bucket5" {
+#   bucket = "${aws_s3_bucket.this.id}-5"
+#   versioning_configuration {
+#     status = var.enable_versioning ? "Enabled" : "Disabled"
+#   }
+# }
