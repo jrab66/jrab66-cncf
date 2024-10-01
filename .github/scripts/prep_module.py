@@ -12,7 +12,7 @@ skeleton_contents = {
     },
     "release": {
         "branches": [
-            "main"
+            "terraform-modules"
         ]
     },
     "plugins": [
