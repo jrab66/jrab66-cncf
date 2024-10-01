@@ -1,0 +1,4 @@
+{
+  "name": "tjth-s3-bucket",
+  "description": "A terraform module for creating an s3 bucket"
+}
