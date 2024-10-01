@@ -21,3 +21,10 @@ resource "aws_s3_bucket_versioning" "bucket2" {
     status = var.enable_versioning ? "Enabled" : "Disabled"
   }
 }
+
+resource "aws_s3_bucket_versioning" "bucket3" {
+  bucket = "${aws_s3_bucket.this.id}-3"
+  versioning_configuration {
+    status = var.enable_versioning ? "Enabled" : "Disabled"
+  }
+}
