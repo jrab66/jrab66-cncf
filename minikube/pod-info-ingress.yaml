@@ -1,0 +1,21 @@
+
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: true
+  className: ""
+  annotations: 
+    cert-manager.io/cluster-issuer: mkcert-issuer
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: pod-info.192.168.49.2.nip.io
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+   - secretName: pod-info.192.168.49.2.nip.io
+     hosts:
+       - pod-info.192.168.49.2.nip.io
+
+
