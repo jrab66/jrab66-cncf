@@ -62,3 +62,16 @@ data:
     host: "localhost:${reg_port}"
     help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
 EOF
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: local-registry-hosting
+  namespace: kube-public
+data:
+  localRegistryHosting.v1: |
+    host: "192.168.31.55:${reg_port}"
+    help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
+EOF
