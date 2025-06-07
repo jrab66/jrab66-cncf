@@ -39,3 +39,6 @@ terraform.rc
 
 #gcp credentials.json
 credentials.json
+
+
+script.sh
