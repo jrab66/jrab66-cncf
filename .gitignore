@@ -41,4 +41,6 @@ terraform.rc
 credentials.json
 
 
+script2.sh
+
 script.sh
