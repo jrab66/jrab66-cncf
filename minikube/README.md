@@ -43,12 +43,12 @@ create minikube cluster
 Deploy the application using the default configuration:
 
 ```sh
-helm upgrade --install demo-helm helm-chart-demo 
+helm upgrade --install demo-helm demo
 ```
 
 **What this does:**
-- Creates a new Helm release named `demo-helm`
-- Uses the chart located in the `helm-chart-demo` directory
+- Creates a new Helm release named `demo`
+- Uses the chart located in the `demo` directory
 - Applies default values from the chart
 
 **Note:** This basic installation doesn't include Ingress or TLS configuration. Use the Ingress installation method below for production-like setups.
