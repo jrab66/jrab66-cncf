@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bad-latest
+  namespace: default
+spec:
+  restartPolicy: Never
+  containers:
+    - name: c
+      image: nginx:latest
+      command: ["sh", "-c", "nginx -g 'daemon off;' "]
