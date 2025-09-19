@@ -4,7 +4,15 @@ Welcome to my personal collection of Kubernetes demos and tools! This repository
 
 ## 🚀 Available Demos
 
-### 1. [Minikube Local Development](minikube/README.md)
+### 1. [Kyberno Policy Demo](kyberno/README.md)
+Comprehensive Kyverno policy examples demonstrating Kubernetes security and governance:
+- Namespace label requirements and validation
+- Container image security policies (blocking :latest tags)
+- Pod security controls (privileged containers, resource limits)
+- Security context mutations and defaults
+- Ready-to-use policy collection with testing examples
+
+### 2. [Minikube Local Development](minikube/README.md)
 A comprehensive local Kubernetes development environment featuring:
 - Local development with automatic code reloading
 - HTTPS with locally-trusted certificates using mkcert
@@ -12,21 +20,21 @@ A comprehensive local Kubernetes development environment featuring:
 - Automated certificate management with cert-manager
 - Helm chart deployment examples
 
-### 2. [Glasskube Operator Demo](glasskube-demo/README.md)
+### 3. [Glasskube Operator Demo](glasskube-demo/README.md)
 Demonstrates the capabilities of the Glasskube operator for managing Kubernetes applications, including:
 - Application lifecycle management
 - Dependency resolution
 - Configuration management
 - Automated updates
 
-### 3. [Kind + Docker Demo](kind-docker-demo/README.md)
+### 4. [Kind + Docker Demo](kind-docker-demo/README.md)
 A streamlined local Kubernetes development setup featuring:
 - Local container registry integration
 - Fast container image building and testing
 - Isolated development environments
 - Simplified Kubernetes testing workflow
 
-### 4. [GKE Deployment](gke/README.md)
+### 5. [GKE Deployment](gke/README.md)
 Terraform-based deployment for Google Kubernetes Engine (GKE) demonstrating:
 - Infrastructure as Code (IaC) with Terraform
 - Production-ready GKE cluster configuration

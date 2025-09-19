@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: with-resources
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: with-resources
+  template:
+    metadata:
+      labels:
+        app: with-resources
+    spec:
+      restartPolicy: Always 
+      containers:
+        - name: c
+          image: busybox:1.36
+          command: ["sh", "-c", "sleep 5"]
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"

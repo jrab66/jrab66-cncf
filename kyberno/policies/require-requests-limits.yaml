@@ -19,7 +19,8 @@ spec:
               kinds:
                 - Pod
       validate:
-        message: "All containers must have CPU/Memory requests and limits"
+        message: >-
+          All containers must have CPU/Memory requests and limits
         pattern:
           spec:
             containers:

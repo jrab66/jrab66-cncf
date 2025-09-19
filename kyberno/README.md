@@ -2,6 +2,12 @@
 
 This folder contains ready-to-use Kyverno policies and a `kustomization.yaml` to apply them all at once.
 
+## Prerequisites
+
+- Minikube
+- kubectl
+- Helm
+
 ## Install Kyverno
 
 Option A: Helm
@@ -47,84 +53,93 @@ kubectl delete -k .
 
 ## Quick tests
 
-Open a new terminal and try the following after applying the policies.
+# Kyverno policy test manifests
 
-1) Namespace label requirement
+This folder contains simple manifests to test each policy under `../policies/`.
 
-```bash
-kubectl create ns test-no-label || true
-# Expect: denied by Kyverno (missing required label)
-
-kubectl create ns test-with-label --dry-run=client -o yaml \
-  | kubectl label --local -f - env=dev --dry-run=client -o yaml \
-  | kubectl apply -f -
-# Expect: allowed, has env label
-```
-
-2) Disallow :latest images
+Prereqs: Kyverno installed and the policies applied (from `kyberno/`):
 
 ```bash
-kubectl -n default run bad-latest --image=nginx:latest --restart=Never || true
-# Expect: denied by Kyverno
-
-kubectl -n default run good-pin --image=nginx:1.27.2 --restart=Never
-# Expect: allowed
+kubectl apply -k ..
 ```
 
-3) Block privileged
+Test one file at a time to see allow/deny behavior.
+
+## Disallow :latest tag
+
+- Expect DENY:
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
-apiVersion: v1
-kind: Pod
-metadata:
-  name: bad-priv
-spec:
-  containers:
-  - name: c
-    image: busybox:1.36
-    command: ["sh", "-c", "sleep 3600"]
-    securityContext:
-      privileged: true
-EOF
-# Expect: denied by Kyverno
+kubectl apply -f tests/images/pod-latest.yaml
 ```
 
-4) Require requests/limits
+- Expect ALLOW:
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
-apiVersion: v1
-kind: Pod
-metadata:
-  name: no-resources
-spec:
-  containers:
-  - name: c
-    image: busybox:1.36
-    command: ["sh", "-c", "sleep 3600"]
-EOF
-# Expect: denied by Kyverno
+kubectl apply -f tests/images/pod-pinned.yaml
 ```
 
-5) Default securityContext mutation
+
+## Namespace label policy
+
+- Expect DENY:
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
-apiVersion: v1
-kind: Pod
-metadata:
-  name: defaults-added
-spec:
-  containers:
-  - name: c
-    image: busybox:1.36
-    command: ["sh", "-c", "id && sleep 5"]
-EOF
-kubectl get pod defaults-added -o yaml | grep -A3 securityContext
-# Expect: runAsNonRoot, allowPrivilegeEscalation=false, seccompProfile=RuntimeDefault added
+kubectl apply -f tests/namespaces/namespace-no-label.yaml
 ```
 
-Notes
-- Some policies are ClusterPolicies (cluster-scoped) and affect all namespaces.
-- You can scope ClusterPolicy rules with match/exclude as needed.
+- Expect ALLOW:
+
+```bash
+kubectl apply -f tests/namespaces/namespace-with-label.yaml
+```
+
+
+## Block privileged / escalation
+
+- Expect DENY:
+
+```bash
+kubectl apply -f tests/security/pod-privileged.yaml
+```
+
+- Expect ALLOW:
+
+```bash
+kubectl apply -f tests/security/pod-nonpriv.yaml
+```
+
+## Require requests/limits
+
+- Expect DENY:
+
+```bash
+kubectl apply -f tests/resources/pod-no-resources.yaml
+```
+
+- Expect ALLOW:
+
+```bash
+kubectl apply -f tests/resources/pod-with-resources.yaml
+```
+
+## Default securityContext mutation
+
+- Expect MUTATION (allowed + defaults injected):
+
+```bash
+kubectl apply -f mutation/pod-mutate-defaults.yaml
+kubectl get pod mutate-defaults -o yaml | grep -A5 securityContext
+```
+
+Cleanup
+
+```bash
+kubectl delete -f tests/namespaces/namespace-with-label.yaml --ignore-not-found
+kubectl delete -f tests/images/pod-pinned.yaml --ignore-not-found
+kubectl delete -f tests/security/pod-nonpriv.yaml --ignore-not-found
+kubectl delete -f tests/resources/pod-with-resources.yaml --ignore-not-found
+kubectl delete -f tests/mutation/pod-mutate-defaults.yaml --ignore-not-found
+kubectl delete ns test-with-label --ignore-not-found
+kubectl delete pod bad-latest good-pin bad-priv no-resources defaults-added mutate-defaults --ignore-not-found
+```
