@@ -1,0 +1,48 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: block-privileged
+  annotations:
+    policies.kyverno.io/title: Block Privileged Pods
+    policies.kyverno.io/category: Security
+    policies.kyverno.io/subject: Pod, SecurityContext
+    policies.kyverno.io/description: >-
+      Disallow Pods that request privileged=true or allowPrivilegeEscalation=true.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: disallow-privileged
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      preconditions:
+        all:
+          - key: "{{ request.operation }}"
+            operator: In
+            value:
+              - CREATE
+              - UPDATE
+      validate:
+        message: "Privileged containers and allowPrivilegeEscalation=true are not allowed"
+        deny:
+          conditions:
+            any:
+              - key: "{{ request.object.spec.containers[*].securityContext.privileged }}"
+                operator: AnyIn
+                value:
+                  - true
+              - key: "{{ request.object.spec.initContainers[*].securityContext.privileged }}"
+                operator: AnyIn
+                value:
+                  - true
+              - key: "{{ request.object.spec.containers[*].securityContext.allowPrivilegeEscalation }}"
+                operator: AnyIn
+                value:
+                  - true
+              - key: "{{ request.object.spec.initContainers[*].securityContext.allowPrivilegeEscalation }}"
+                operator: AnyIn
+                value:
+                  - true

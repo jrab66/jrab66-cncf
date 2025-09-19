@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: no-resources
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: no-resources
+  template:
+    metadata:
+      labels:
+        app: no-resources
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: c
+          image: busybox:1.36
+          command: ["sh", "-c", "sleep 3600"]

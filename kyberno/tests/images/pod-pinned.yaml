@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: good-pin
+  namespace: default
+spec:
+  restartPolicy: Never
+  containers:
+    - name: c
+      image: nginx:1.27.2
+      command: ["sh", "-c", "nginx -g 'daemon off;' "]

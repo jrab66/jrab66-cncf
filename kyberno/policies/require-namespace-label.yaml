@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-namespace-label
+  annotations:
+    policies.kyverno.io/title: Require Namespace Label
+    policies.kyverno.io/category: Best Practices
+    policies.kyverno.io/subject: Namespace
+    policies.kyverno.io/description: >-
+      Require that all Namespaces include a standard label `env` so they can be
+      selected and organized consistently.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: require-env-label
+      match:
+        any:
+          - resources:
+              kinds:
+                - Namespace
+      validate:
+        message: "Namespace must have label env with a non-empty value"
+        pattern:
+          metadata:
+            labels:
+              env: "?*"
